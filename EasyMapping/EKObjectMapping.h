@@ -64,6 +64,11 @@
 @property (nonatomic, strong, readonly) NSMutableDictionary *propertyMappings;
 
 /**
+ Dictionary, containing mappings for properties that are composed of more than one key for current object.
+ */
+@property (nonatomic, strong, readonly) NSMutableDictionary *compoundMappings;
+
+/**
  Dictionary, containing to-one relationships of current object.
  */
 @property (nonatomic, strong, readonly) NSMutableDictionary *hasOneMappings;
@@ -192,6 +197,11 @@
         toProperty:(NSString *)property
     withValueBlock:(EKMappingValueBlock)valueBlock
       reverseBlock:(EKMappingReverseBlock)reverseBlock;
+
+- (void)mapKeyPaths:(NSArray<NSString *> *)keyPaths
+ toCompoundProperty:(NSString *)property
+     withValueBlock:(EKComposedMappingValueBlock)valueBlock
+       reverseBlock:(EKComposedMappingReverseBlock)reverseBlock;
 
 /**
  Map to-one relationship for keyPath. Assuming keyPath and property name are equal. ObjectClass should conform to `EKMappingProtocol`.

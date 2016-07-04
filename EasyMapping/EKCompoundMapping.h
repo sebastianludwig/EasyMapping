@@ -1,7 +1,7 @@
 //
 //  EasyMapping
 //
-//  Copyright (c) 2012-2015 Lucas Medeiros.
+//  Copyright (c) 2012-2014 Lucas Medeiros.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,22 +21,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
+#import "EKMappingBlocks.h"
 
-typedef id(^EKMappingValueBlock)(NSString *key, id value);
-typedef id(^EKMappingReverseBlock)(id value);
+@interface EKCompoundMapping : NSObject
 
-typedef id(^EKComposedMappingValueBlock)(NSDictionary<NSString *, id> *keyValues, id value);
-typedef id(^EKComposedMappingReverseBlock)(id value);
+/**
+ Name of the property, which will be receiving value.
+ */
+@property (nonatomic) NSString *property;
 
-typedef id(^EKManagedMappingValueBlock)(NSString * key, id value, NSManagedObjectContext * context);
-typedef id(^EKManagedMappingReverseValueBlock)(id value, NSManagedObjectContext * context);
+/**
+ List of paths to fields in JSON, that will be later passed to `valueBlock` method.
+ */
+@property (nonatomic, copy) NSArray<NSString *> *keyPaths;
 
-@interface EKMappingBlocks: NSObject
+/**
+ Optional block to transform JSON value into compound object.
+ */
+@property (nonatomic) EKComposedMappingValueBlock valueBlock;
 
-+ (EKMappingValueBlock)urlMappingBlock;
-+ (EKMappingReverseBlock)urlReverseMappingBlock;
+/**
+ Optional block to serialize compound object into JSON representation.
+ */
+@property (nonatomic) EKComposedMappingReverseBlock reverseBlock;
+
 
 @end
-

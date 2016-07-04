@@ -225,6 +225,8 @@ describe(@"EKMapper", ^{
             });
         });
         
+        // TODO: implement spec here
+        
         context(@"with hasOne mapping", ^{
             
             __block Person *person;

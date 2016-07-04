@@ -23,6 +23,7 @@
 
 #import "EKObjectMapping.h"
 #import "EKPropertyMapping.h"
+#import "EKCompoundMapping.h"
 #import "EKRelationshipMapping.h"
 #import "EKMappingProtocol.h"
 #import "NSDateFormatter+EasyMappingAdditions.h"
@@ -180,6 +181,23 @@ withValueBlock:(id (^)(NSString *, id))valueBlock reverseBlock:(id (^)(id))rever
     mapping.valueBlock = valueBlock;
     mapping.reverseBlock = reverseBlock;
     [self addPropertyMappingToDictionary:mapping];
+}
+
+- (void)mapKeyPaths:(NSArray<NSString *> *)keyPaths toCompoundProperty:(NSString *)property
+withValueBlock:(EKComposedMappingValueBlock)valueBlock reverseBlock:(EKComposedMappingReverseBlock)reverseBlock
+{
+    NSParameterAssert(keyPaths);
+    NSParameterAssert(keyPaths.count);
+    NSParameterAssert(property);
+    NSParameterAssert(valueBlock);
+    NSParameterAssert(reverseBlock);
+    
+    EKCompoundMapping *mapping = [EKCompoundMapping new];
+    mapping.property = property;
+    mapping.keyPaths = keyPaths;
+    mapping.valueBlock = valueBlock;
+    mapping.reverseBlock = reverseBlock;
+    self.compoundMappings[[keyPaths firstObject]] = mapping;
 }
 
 -(void)hasOne:(Class)objectClass forKeyPath:(NSString *)keyPath
